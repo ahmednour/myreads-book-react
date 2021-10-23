@@ -1,7 +1,7 @@
 # myreads-book-react
  React Nanodegree on Udacity Project
 # Folder Structure
-├── README.md - This file.
+```├── README.md - This file.
 ├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for the app to work.
 ├── package.json
 ├── public
@@ -17,4 +17,4 @@
     │   ├── arrow-back.svg
     │   └── arrow-drop-down.svg
     ├── index.css
-    └── index.js
+    └── index.js```
