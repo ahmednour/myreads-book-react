@@ -1,21 +1,42 @@
-import React from 'react'
-import * as BooksAPI from './API/BooksAPI'
-import BookShelfes from './component/BookShelfes'
-import './App.css'
+import React from 'react';
+import * as BooksAPI from './API/BooksAPI';
+import BookShelfes from './component/BookShelfes';
+import Book from './component/book';
+import './App.css';
 
 class BooksApp extends React.Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false,
-    books:[]
+  constructor() {
+    super();
+    this.changeBookShelf = this.changeBookShelf.bind(this);
   }
-
+  state = {
+    books: [],
+    result: []
+  };
+  componentDidMount() {
+    BooksAPI.getAll().then(books => this.setState({ books: books }));
+  }
+  // change function 
+  changeBookShelf(book, value) {
+    this.setState({
+      books: this.state.books.map(row => {
+        if (row.id == book.id) {
+          row.shelf = value;
+        }
+        return row;
+      })
+    });
+  }
+  // search function 
+  searchPage(word) {
+    BooksAPI.search(word).then((books) => {
+      this.setState({
+        result: books
+      })
+    })
+  }
   render() {
+    const { books } = this.state;
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -31,12 +52,18 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input type="text" placeholder="Search by title or author" onChange={(e) => this.searchPage(e.target.value)} />
 
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                {this.state.result.map(boo => (
+                  <li key={boo.id}>
+                    <Book book={boo} changeBookShelf={this.changeBookShelf} />
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         ) : (
@@ -46,7 +73,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-               <BookShelfes/>
+                <BookShelfes books={books} changeBookShelf={this.changeBookShelf} />
               </div>
             </div>
             <div className="open-search">
