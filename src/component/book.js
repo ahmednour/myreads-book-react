@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 const Book = ({ book, changeBookShelf }) => {
+   
     // define url image 
     const imageUrl = book.imageLinks.thumbnail;
     return (
@@ -9,7 +11,7 @@ const Book = ({ book, changeBookShelf }) => {
             <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + imageUrl + ')' }}></div>
                 <div className="book-shelf-changer">
-                    <select defaultValue={book.shelf} onChange={e => changeBookShelf(book, e.target.value)}>
+                    <select value={book.shelf} onChange={e => changeBookShelf(book, e.target.value)} > 
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
@@ -18,8 +20,8 @@ const Book = ({ book, changeBookShelf }) => {
                     </select>
                 </div>
             </div>
-            <div className="book-title">To Kill a Mockingbird</div>
-            <div className="book-authors">Harper Lee</div>
+            <div className="book-title">{book.title}</div>
+            <div className="book-authors">{book.author}</div>
         </div>
     )
 };
