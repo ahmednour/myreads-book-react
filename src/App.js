@@ -19,19 +19,22 @@ class BooksApp extends React.Component {
   }
   // change shelf function 
   changeBookShelf(book, shelf) {
-    BooksAPI.update(book, shelf)
-    this.setState({
-      books: this.state.books.map(row => {
-        if (row.id === book.id) {
-          row.shelf = shelf;
-        }
-        return row;
-      })
-    });
+    
+    BooksAPI.getAll().then((books)=>{
+      this.setState({
+        books: this.state.books.map(row => {
+          if (row.id === book.id) {
+            row.shelf = shelf;
+          }
+          return row;
+        })
+      });
+    })
+    BooksAPI.update(book, shelf);
   }
 
   render() {
-    const { books , book } = this.state;
+    const { books} = this.state;
 
     return (
       <div className="app">
@@ -40,7 +43,7 @@ class BooksApp extends React.Component {
             <BookShelfes books={books} changeBookShelf={this.changeBookShelf} />
           )} />
           <Route exact path="/search" render={() => (
-            <SearchPage result={books} changeBookShelf={this.changeBookShelf} />
+            <SearchPage books={books} changeBookShelf={this.changeBookShelf} />
           )} />
         </Switch>
       </div>
