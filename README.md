@@ -1,5 +1,11 @@
 # myreads-book-react
  React Nanodegree on Udacity Project
+# How to run project
+ Firstly, install application clone this repositiory or download ZIP file 
+ then , To get started developing right away:
+   - install all project dependencies with `npm install`
+   - start the development server with `npm start`
+
 # Folder Structure
 ```├── README.md - This file.
 ├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for the app to work.
