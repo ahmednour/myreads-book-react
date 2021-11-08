@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Book = ({ book, changeBookShelf }) => {
    
     // define url image 
-    const imageUrl = book.imageLinks.thumbnail;
+    const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : "";
     return (
         <div className="book">
             <div className="book-top">
@@ -21,7 +21,7 @@ const Book = ({ book, changeBookShelf }) => {
                 </div>
             </div>
             <div className="book-title">{book.title}</div>
-            <div className="book-authors">{book.author}</div>
+            <div className="book-authors">{book.authors}</div>
         </div>
     )
 };

@@ -12,8 +12,8 @@ class SearchPage extends Component {
     }
     // search function 
     searchPage(query) {
-        const queryTrim = query.trim();
-        this.setState(() => ({ query: queryTrim }));
+        
+        this.setState(() => ({ query }));
         this.fetchMBooks(query);
     }
     fetchMBooks(query) {
@@ -26,9 +26,16 @@ class SearchPage extends Component {
                 } else {
                     this.setState({ result: result });
                 }
+                result.map(book =>{
+                    const bookOS = this.props.books.find(b => b.id === book.id);
+                    book.shelf = bookOS ? bookOS.shelf:"none";
+                    return book;
+                })
+                this.setState({ result: result });
             })
         } else {            
             this.setState({ result: [] });
+            return;
         }
     }
 
@@ -48,15 +55,7 @@ class SearchPage extends Component {
                     <ol className="books-grid">
                         {
                             result.map(sboo => {
-                                 // const sbooshelf = books.find(b => b.id === sboo.id);
-                                 books.forEach(shelfbook => {
-                                    let shelf = "none";
-                                    if (shelfbook.id !== sboo.id) {
-                                        sboo.shelf = "none";
-                                    } else {
-                                        shelf = sboo.shelf;
-                                    }
-                                })
+                                 // const sbooshelf = books.find(b => b.id === sboo.id);                              
                                 return(
                                     <li key={sboo.id}>
                                         <Book book={sboo} changeBookShelf={changeBookShelf} shelf={this.props.shelf} />
